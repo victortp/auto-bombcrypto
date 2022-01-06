@@ -4,6 +4,7 @@ from src.controls import Controls
 from src.hero import Hero
 from src.bcoin import Bcoin
 from src.logger import Logger
+from src.context import Context
 from time import time, sleep
 
 
@@ -12,7 +13,7 @@ from time import time, sleep
 # ACTIONS COOLDOWN IN MINUTES
 SEND_HEROES_TO_WORK = 10
 REFRESH_HEROES_POSITION = 3
-LOG_BCOIN = 0.5
+LOG_BCOIN = 30
 CHECK_CONNECTION = 1/60
 
 # MISCELLANEOUS
@@ -28,57 +29,23 @@ controls = Controls(RANDOMIZE_MOUSE_MOVEMENT)
 login = Login(detection, controls, logger)
 hero = Hero(detection, controls, logger, SEND_ALL_HEROES_TO_WORK)
 bcoin = Bcoin(detection, controls, logger)
-
-last_execution = {
-    'is_connected': 0,
-    'start': 0,
-    'send_to_work': 0,
-    'refresh': 0,
-    'bcoin': 0,
-    'new_map': 0
-}
-
-state = {
-    'SIGNING_IN': 0,
-    'WORKING': 1,
-    'REFRESHING': 2,
-    'BCOIN': 3,
-    'SEND_TO_WORK': 4
-}
-
-last_successful_execution = 0
-started_at = 0
-is_logged_in = False
-current_state = None
-
-
-def update_last_execution(feature, success=True):
-    now = time()
-    last_execution[feature] = now
-
-    if success is True:
-        last_successful_execution = now
-
-
-def reset_last_execution():
-    for key, _ in last_execution.items():
-        last_execution[key] = 0
+ctx = Context()
 
 
 def main():
     welcome_message()
-    logger.log('Starting', 0)
-    started_at = time()
 
-    current_state = state['SIGNING_IN']
+    logger.log('Starting', 0)
+
+    ctx.update_last_execution('started_at')
+    ctx.set_state(ctx.states.SIGNING_IN)
 
     while True:
-        now = time()
-
+        ctx.debug()
         # check if the game is connected
         is_connected = login.is_connected()
 
-        update_last_execution('is_connected')
+        ctx.update_last_execution('is_connected')
 
         if not is_connected:
             # sign in the game
@@ -88,67 +55,72 @@ def main():
             logger.log(
                 f'{"Signed in" if signed_in else "Did not sign in"}', 1)
 
-            reset_last_execution()
+            ctx.reset_last_execution()
 
             if signed_in is False:
                 continue
 
-        if current_state == state['SIGNING_IN']:
+        if ctx.state_equals(ctx.states.SIGNING_IN):
             # start adventure mode after signing in
             logger.log('Starting adventure mode', 0)
             started = hero.start()
 
-            current_state = state['WORKING']
+            ctx.set_state(ctx.states.WORKING)
+            ctx.update_last_execution('start', started)
 
-            update_last_execution('start', started)
             continue
 
-        if now - last_execution['send_to_work'] > SEND_HEROES_TO_WORK * 60 and current_state != state['SIGNING_IN']:
+        if ctx.has_elapsed('send_to_work', SEND_HEROES_TO_WORK * 60) and ctx.state_equals(ctx.states.SIGNING_IN) is False:
             # look for heroes available to work
             logger.log('Looking for heroes available to work', 0)
-            current_state = state['SEND_TO_WORK']
+            ctx.set_state(ctx.states.SEND_TO_WORK)
             sent_to_work = hero.send_to_work()
-            current_state = state['WORKING']
+            ctx.set_state(ctx.states.WORKING)
 
-            update_last_execution('send_to_work', sent_to_work)
+            ctx.update_last_execution('send_to_work', sent_to_work)
+
             continue
 
-        if now - last_execution['refresh'] > REFRESH_HEROES_POSITION * 60 and current_state != state['SIGNING_IN']:
+        if ctx.has_elapsed('refresh', REFRESH_HEROES_POSITION * 60) and ctx.state_equals(ctx.states.SIGNING_IN) is False:
             # refresh heroes position on the map
             logger.log('Refreshing heroes position on the map', 0)
-            current_state = state['REFRESHING']
+            ctx.set_state(ctx.states.REFRESHING)
             updated = hero.refresh_heroes_position()
-            current_state = state['WORKING']
+            ctx.set_state(ctx.states.WORKING)
 
-            update_last_execution('refresh', updated)
+            ctx.update_last_execution('refresh', updated)
+
             continue
 
-        if now - last_execution['bcoin'] > LOG_BCOIN * 60 and current_state == state['WORKING']:
+        if ctx.has_elapsed('bcoin', LOG_BCOIN * 60) and ctx.state_equals(ctx.states.WORKING) is True:
             # logs current bc value
             logger.log('Saving current Bcoin amount in the chest', 0)
-            current_state = state['BCOIN']
+            ctx.set_state(ctx.states.BCOIN)
             logged = bcoin.log_current_bc()
-            current_state = state['WORKING']
+            ctx.set_state(ctx.states.WORKING)
 
-            update_last_execution('bcoin', logged)
+            ctx.update_last_execution('bcoin', logged)
+
             continue
 
-        if now - last_execution['new_map'] > 5 and current_state != state['SIGNING_IN']:
+        if ctx.has_elapsed('new_map', 5) and ctx.state_equals(ctx.states.SIGNING_IN) is False:
             result = hero.new_map()
 
             if result:
                 logger.log("Map finished", new_map=True)
 
-            update_last_execution('bcoin', result)
+            ctx.update_last_execution('new_map', result)
+
             continue
 
-        if now - last_successful_execution > 3 * 60 and last_successful_execution != 0 or now - started_at > 60 * 60:
+        if ctx.has_elapsed('last_successful_execution', 3 * 60) or ctx.has_elapsed('started_at', 60 * 60):
             # try to sign in again when the last successful execution was
             # performed over 3 minutes or 60 minutes has passed since login
-            current_state = state['SIGNING_IN']
+            ctx.set_state(ctx.states.SIGNING_IN)
             login.sign_in()
 
-            started_at = time()
+            ctx.update_last_execution('started_at')
+
             continue
 
         sleep(1)
