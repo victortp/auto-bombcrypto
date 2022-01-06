@@ -22,6 +22,7 @@ SAVE_LOG_TO_FILE = True  # True = yes | False = no
 RANDOMIZE_MOUSE_MOVEMENT = True  # True = yes | False = no
 
 #### DO NOT CHANGE BELOW THIS LINE ####
+DEBUG = False
 
 logger = Logger(SAVE_LOG_TO_FILE)
 detection = Detection()
@@ -41,7 +42,9 @@ def main():
     ctx.set_state(ctx.states.SIGNING_IN)
 
     while True:
-        ctx.debug()
+        if DEBUG:
+            ctx.debug()
+
         # check if the game is connected
         is_connected = login.is_connected()
 
