@@ -13,19 +13,27 @@ class Login:
 
     def is_connected(self):
         screenshot = self.detection.get_screenshot()
-        # check if there is a connect wallet button on the screen
+        # check if connect wallet button is visible on the screen
         connect_button = self.detection.find_on_screen(
             self.detection.images['connect-wallet'], screenshot)
 
         if len(connect_button) > 0:
             return False
 
-        # check if there is an error message box
+        # check if error message box is visible on the screen
         error_messagebox = self.detection.find_on_screen(
             self.detection.images['error'], screenshot)
 
         if len(error_messagebox) > 0:
             return False
+
+        # check if bombcrypto logo is visible on the screen
+        logo = self.detection.find_on_screen(
+            self.detection.images['bomb-logo'], screenshot)
+
+        if len(logo) > 0:
+            return False
+
         return True
 
     def move_to_game_window(self):

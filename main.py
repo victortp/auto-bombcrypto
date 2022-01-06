@@ -13,7 +13,7 @@ from time import time, sleep
 SEND_HEROES_TO_WORK = 10
 REFRESH_HEROES_POSITION = 3
 LOG_BCOIN = 30
-CHECK_CONNECTION = 1
+CHECK_CONNECTION = 1/60
 
 # MISCELLANEOUS
 SEND_ALL_HEROES_TO_WORK = False  # True = yes | False = no
@@ -31,7 +31,6 @@ bcoin = Bcoin(detection, controls, logger)
 
 last_execution = {
     'is_connected': 0,
-    'login': 0,
     'start': 0,
     'send_to_work': 0,
     'refresh': 0,
@@ -61,6 +60,11 @@ def update_last_execution(feature, success=True):
         last_successful_execution = now
 
 
+def reset_last_execution():
+    for key, _ in last_execution.items():
+        last_execution[key] = 0
+
+
 def main():
     welcome_message()
     logger.log('Starting', 0)
@@ -71,31 +75,23 @@ def main():
     while True:
         now = time()
 
-        # for key, value in last_execution.items():
-        #     print(f'{key}: {now - value if now - value != now else 0}s')
-        # print(
-        #     f'last_successful_execution: {now - last_successful_execution if now - last_successful_execution != now else 0}s')
+        # check if the game is connected
+        is_connected = login.is_connected()
 
-        if now - last_execution['is_connected'] > CHECK_CONNECTION * 60 or current_state == state['SIGNING_IN']:
-            # check if the game is connected
-            logger.log('Checking if the game is connected', 0)
-            is_connected = login.is_connected()
+        update_last_execution('is_connected')
 
-            logger.log(f'Game is{"" if is_connected else " not"} connected', 1)
-            update_last_execution('is_connected')
+        if not is_connected:
+            # sign in the game
+            logger.log('Disconnected, signing in', 0)
+            signed_in = login.sign_in()
 
-            if not is_connected:
-                # sign in the game
-                logger.log('Signing in', 0)
-                signed_in = login.sign_in()
+            logger.log(
+                f'{"Signed in" if signed_in else "Did not sign in"}', 1)
 
-                logger.log(
-                    f'{"Signed in" if signed_in else "Did not sign in"}', 1)
+            reset_last_execution()
 
-                update_last_execution('login', signed_in)
-
-                if not signed_in:
-                    continue
+            if not signed_in:
+                continue
 
         if current_state == state['SIGNING_IN']:
             # start adventure mode after signing in
@@ -105,6 +101,7 @@ def main():
             current_state = state['WORKING']
 
             update_last_execution('start', started)
+            continue
 
         if now - last_execution['send_to_work'] > SEND_HEROES_TO_WORK * 60 and current_state != state['SIGNING_IN']:
             # look for heroes available to work
@@ -114,6 +111,7 @@ def main():
             current_state = state['WORKING']
 
             update_last_execution('send_to_work', sent_to_work)
+            continue
 
         if now - last_execution['refresh'] > REFRESH_HEROES_POSITION * 60 and current_state != state['SIGNING_IN']:
             # refresh heroes position on the map
@@ -123,6 +121,7 @@ def main():
             current_state = state['WORKING']
 
             update_last_execution('refresh', updated)
+            continue
 
         if now - last_execution['bcoin'] > LOG_BCOIN * 60 and current_state == state['WORKING']:
             # logs current bc value
@@ -132,6 +131,7 @@ def main():
             current_state = state['WORKING']
 
             update_last_execution('bcoin', logged)
+            continue
 
         if now - last_execution['new_map'] > 5 and current_state != state['SIGNING_IN']:
             result = hero.new_map()
@@ -140,15 +140,16 @@ def main():
                 logger.log("Map finished", new_map=True)
 
             update_last_execution('bcoin', result)
+            continue
 
         if now - last_successful_execution > 3 * 60 and last_successful_execution != 0 or now - started_at > 60 * 60:
             # try to sign in again when the last successful execution was
             # performed over 3 minutes or 60 minutes has passed since login
             current_state = state['SIGNING_IN']
-            logged_in = login.sign_in()
+            login.sign_in()
 
-            update_last_execution('login', logged_in)
             started_at = time()
+            continue
 
         sleep(1)
 
