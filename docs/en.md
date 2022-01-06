@@ -23,7 +23,7 @@ Before beginning, make sure that you have met the following requirements:
 
 - You have the latest `Python` version installed ([download](https://www.python.org/downloads/))
 - You know how to use the `command prompt / terminal`
-- Install the package `scrot` if you use unix system:
+- Installed the package `scrot` if you use unix system:
 
 ```
 sudo apt install scrot
@@ -42,7 +42,7 @@ cd path/to/project-folder/
 - Install the dependencies
 
 ```
-pip install -r "requirements.txt"
+pip install -r requirements.txt
 ```
 
 ## ☕ Using Auto BOMBCRYPTO
@@ -62,4 +62,4 @@ cd path/to/project-folder/
 python main.py
 ```
 
-- As it is an image based bot, keep the browser window visible at all times
+- As it is an image based tool, keep the browser window visible at all times

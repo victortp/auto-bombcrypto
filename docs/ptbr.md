@@ -23,7 +23,7 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 - Você possui a versão mais recente do `Python` instalada ([download](https://www.python.org/downloads/))
 - Você sabe utilizar o `prompt de comando / terminal`
-- Instale o pacote `scrot` caso utilize sistema unix:
+- Instalou o pacote `scrot` caso utilize sistema unix:
 
 ```
 sudo apt install scrot
@@ -42,7 +42,7 @@ cd path/to/project-folder/
 - Instale as dependências
 
 ```
-pip install -r "requirements.txt"
+pip install -r requirements.txt
 ```
 
 ## ☕ Usando Auto BOMBCRYPTO
@@ -53,7 +53,7 @@ Para usar o Auto BOMBCRYPTO, siga as etapas abaixo:
 - Abra a pasta do projeto no prompt de comando / terminal
 
 ```
-cd path/to/project-folder/
+cd caminho/para/pasta-do-projeto/
 ```
 
 - Execute o projeto
@@ -62,4 +62,4 @@ cd path/to/project-folder/
 python main.py
 ```
 
-- Por ser um bot baseado em imagens, mantenha a janela do navegador visível em todos os momentos
+- Por ser uma ferramenta baseada em imagens, mantenha a janela do navegador visível em todos os momentos
