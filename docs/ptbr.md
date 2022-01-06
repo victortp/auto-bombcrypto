@@ -63,3 +63,22 @@ python main.py
 ```
 
 - Por ser uma ferramenta baseada em imagens, mantenha a janela do navegador visível em todos os momentos
+
+## ⚙️ Ajustes
+
+Você pode alterar o comportamento da ferramenta alterando as variáveis abaixo no arquivo `main.py`:
+
+> ⚠️ **Alterar essas variáreis pode quebrar a ferramenta**
+
+```python
+# TEMPO DE ESPERA DAS AÇÕES EM MINUTOS
+SEND_HEROES_TO_WORK = 10 # Enviar heróis para o trabalho
+REFRESH_HEROES_POSITION = 3 # Atualizar a posição dos heróis
+LOG_BCOIN = 30 # Registrar os bcoins
+CHECK_CONNECTION = 1/60 # Verificar a conexão
+
+# DIVERSOS
+SEND_ALL_HEROES_TO_WORK = False  # Enviar todos os heróis para o trabalho: True = sim | False = não
+SAVE_LOG_TO_FILE = True  # Gravar o registro em arquivo: True = sim | False = não
+RANDOMIZE_MOUSE_MOVEMENT = True  # Movimento do mouse aleatório: True = sim | False = não
+```

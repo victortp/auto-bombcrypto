@@ -63,3 +63,22 @@ python main.py
 ```
 
 - As it is an image based tool, keep the browser window visible at all times
+
+## ⚙️ Tweaks
+
+You can change the tool's behavior by changing the following variables in the `main.py` file:
+
+> ⚠️ **Changing these variables may break the tool**
+
+```python
+# ACTIONS COOLDOWN IN MINUTES
+SEND_HEROES_TO_WORK = 10
+REFRESH_HEROES_POSITION = 3
+LOG_BCOIN = 30
+CHECK_CONNECTION = 1/60
+
+# MISCELLANEOUS
+SEND_ALL_HEROES_TO_WORK = False  # True = yes | False = no
+SAVE_LOG_TO_FILE = True  # True = yes | False = no
+RANDOMIZE_MOUSE_MOVEMENT = True  # True = yes | False = no
+```
