@@ -1,12 +1,12 @@
-# Bombcrypto Bot
+# 💣 Auto BOMBCRYPTO
 
-![GitHub repo size](https://img.shields.io/github/repo-size/victortp/bombcrypto-bot?style=for-the-badge)
-![GitHub language count](https://img.shields.io/github/languages/count/victortp/bombcrypto-bot?style=for-the-badge)
-![GitHub forks](https://img.shields.io/github/forks/victortp/bombcrypto-bot?style=for-the-badge)
-![Bitbucket open issues](https://img.shields.io/bitbucket/issues/victortp/bombcrypto-bot?style=for-the-badge)
-![Bitbucket open pull requests](https://img.shields.io/bitbucket/pr-raw/victortp/bombcrypto-bot?style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/victortp/auto-bombcrypto?style=for-the-badge)
+![GitHub language count](https://img.shields.io/github/languages/count/victortp/auto-bombcrypto?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/victortp/auto-bombcrypto?style=for-the-badge)
+![Bitbucket open issues](https://img.shields.io/bitbucket/issues/victortp/auto-bombcrypto?style=for-the-badge)
+![Bitbucket open pull requests](https://img.shields.io/bitbucket/pr-raw/victortp/auto-bombcrypto?style=for-the-badge)
 
-<img src="https://github.com/victortp/bombcrypto-bot/blob/main/docs/logo.png" alt="Bombcrypto Bot">
+<img src="https://github.com/victortp/auto-bombcrypto/blob/main/docs/logo.png" alt="Auto BOMBCRYPTO">
 
 ## 💎 Funcionalidades
 
@@ -27,9 +27,9 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 sudo apt install scrot
 ```
 
-## 🚀 Instalando Bombcrypto Bot
+## 🚀 Instalando Auto BOMBCRYPTO
 
-Para instalar o Bombcrypto Bot, siga as etapas abaixo:
+Para instalar o Auto BOMBCRYPTO, siga as etapas abaixo:
 
 - Abra a pasta do projeto no prompt de comando / terminal
 
@@ -43,11 +43,11 @@ cd path/to/project-folder/
 pip install -r "requirements.txt"
 ```
 
-## ☕ Usando Bombcrypto Bot
+## ☕ Usando Auto BOMBCRYPTO
 
-Para usar o Bombcrypto Bot, siga as etapas abaixo:
+Para usar o Auto BOMBCRYPTO, siga as etapas abaixo:
 
-- Abra [Bombcrypto website](https://app.bombcrypto.io/)
+- Abra o [site do Bombcrypto](https://app.bombcrypto.io/)
 - Abra a pasta do projeto no prompt de comando / terminal
 
 ```

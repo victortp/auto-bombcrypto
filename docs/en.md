@@ -1,12 +1,12 @@
-# Bombcrypto Bot
+# 💣 Auto BOMBCRYPTO
 
-![GitHub repo size](https://img.shields.io/github/repo-size/victortp/bombcrypto-bot?style=for-the-badge)
-![GitHub language count](https://img.shields.io/github/languages/count/victortp/bombcrypto-bot?style=for-the-badge)
-![GitHub forks](https://img.shields.io/github/forks/victortp/bombcrypto-bot?style=for-the-badge)
-![Bitbucket open issues](https://img.shields.io/bitbucket/issues/victortp/bombcrypto-bot?style=for-the-badge)
-![Bitbucket open pull requests](https://img.shields.io/bitbucket/pr-raw/victortp/bombcrypto-bot?style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/victortp/auto-bombcrypto?style=for-the-badge)
+![GitHub language count](https://img.shields.io/github/languages/count/victortp/auto-bombcrypto?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/victortp/auto-bombcrypto?style=for-the-badge)
+![Bitbucket open issues](https://img.shields.io/bitbucket/issues/victortp/auto-bombcrypto?style=for-the-badge)
+![Bitbucket open pull requests](https://img.shields.io/bitbucket/pr-raw/victortp/auto-bombcrypto?style=for-the-badge)
 
-<img src="https://github.com/victortp/bombcrypto-bot/blob/main/docs/logo.png" alt="Bombcrypto Bot">
+<img src="https://github.com/victortp/auto-bombcrypto/blob/main/docs/logo.png" alt="Auto BOMBCRYPTO">
 
 ## 💎 Features
 
@@ -28,9 +28,9 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 sudo apt install scrot
 ```
 
-## 🚀 Installing Bombcrypto Bot
+## 🚀 Installing Auto BOMBCRYPTO
 
-To install Bombcrypto Bot, follow the steps below:
+To install Auto BOMBCRYPTO, follow the steps below:
 
 - Open the project folder in the command prompt / terminal
 
@@ -44,9 +44,9 @@ cd path/to/project-folder/
 pip install -r "requirements.txt"
 ```
 
-## ☕ Using Bombcrypto Bot
+## ☕ Using Auto BOMBCRYPTO
 
-To use Bombcrypto Bot, follow the steps below:
+To use Auto BOMBCRYPTO, follow the steps below:
 
 - Open [Bombcrypto website](https://app.bombcrypto.io/)
 - Open the project folder in the command prompt / terminal
