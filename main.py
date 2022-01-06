@@ -73,7 +73,7 @@ def main():
 
             continue
 
-        if ctx.has_elapsed('send_to_work', SEND_HEROES_TO_WORK * 60) and ctx.state_equals(ctx.states.SIGNING_IN) is False:
+        if ctx.has_elapsed('send_to_work', SEND_HEROES_TO_WORK * 60) and not ctx.state_equals(ctx.states.SIGNING_IN):
             # look for heroes available to work
             logger.log('Looking for heroes available to work', 0)
             ctx.set_state(ctx.states.SEND_TO_WORK)
@@ -84,7 +84,7 @@ def main():
 
             continue
 
-        if ctx.has_elapsed('refresh', REFRESH_HEROES_POSITION * 60) and ctx.state_equals(ctx.states.SIGNING_IN) is False:
+        if ctx.has_elapsed('refresh', REFRESH_HEROES_POSITION * 60) and ctx.state_equals(ctx.states.SIGNING_IN):
             # refresh heroes position on the map
             logger.log('Refreshing heroes position on the map', 0)
             ctx.set_state(ctx.states.REFRESHING)
@@ -95,7 +95,7 @@ def main():
 
             continue
 
-        if ctx.has_elapsed('bcoin', LOG_BCOIN * 60) and ctx.state_equals(ctx.states.WORKING) is True:
+        if ctx.has_elapsed('bcoin', LOG_BCOIN * 60) and ctx.state_equals(ctx.states.WORKING):
             # logs current bc value
             logger.log('Saving current Bcoin amount in the chest', 0)
             ctx.set_state(ctx.states.BCOIN)
@@ -106,7 +106,7 @@ def main():
 
             continue
 
-        if ctx.has_elapsed('new_map', 5) and ctx.state_equals(ctx.states.SIGNING_IN) is False:
+        if ctx.has_elapsed('new_map', 5) and ctx.state_equals(ctx.states.SIGNING_IN):
             result = hero.new_map()
 
             if result:
@@ -119,6 +119,7 @@ def main():
         if ctx.has_elapsed('last_successful_execution', 3 * 60) or ctx.has_elapsed('started_at', 60 * 60):
             # try to sign in again when the last successful execution was
             # performed over 3 minutes or 60 minutes has passed since login
+            logger.log('Reloading the game', 0)
             ctx.set_state(ctx.states.SIGNING_IN)
             login.sign_in()
 
