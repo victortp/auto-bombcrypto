@@ -37,6 +37,9 @@ class Hero:
         if len(hero) > 0:
             self.controls.mouse_click(hero[0])
 
+        # in account of possible lag
+        sleep(5)
+
         if self.send_all:
             self.send_all_heroes()
         else:
@@ -68,7 +71,6 @@ class Hero:
             self.controls.mouse_click(all_button[0])
 
     def send_green_energy_heroes(self):
-        sleep(1)
         scroll_amount = 3
         while scroll_amount >= 0:
             green_bar = self.detection.find_on_screen(
