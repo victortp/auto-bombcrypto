@@ -8,6 +8,8 @@
 
 <img src="https://github.com/victortp/auto-bombcrypto/blob/main/docs/logo.png" alt="Auto BOMBCRYPTO">
 
+> Auto BOMBCRYPTO is automation tool for the game [Bombcrypto](https://app.bombcrypto.io/)
+
 ## 💎 Features
 
 - Login/reconnect
