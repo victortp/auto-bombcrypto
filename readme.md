@@ -6,7 +6,7 @@
 ![Bitbucket open issues](https://img.shields.io/bitbucket/issues/victortp/bombcrypto-bot?style=for-the-badge)
 ![Bitbucket open pull requests](https://img.shields.io/bitbucket/pr-raw/victortp/bombcrypto-bot?style=for-the-badge)
 
-<img src="https://github.com/victortp/bombcrypto-bot/docs/logo.png" alt="Bombcrypto Bot">
+<img src="https://github.com/victortp/bombcrypto-bot/blob/main/docs/logo.png" alt="Bombcrypto Bot">
 
 ## 💬 Select the language / Selecione o idioma
 
