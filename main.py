@@ -59,6 +59,7 @@ def main():
                 f'{"Signed in" if signed_in else "Did not sign in"}', 1)
 
             ctx.reset_last_execution()
+            ctx.update_last_execution('started_at')
 
             if signed_in is False:
                 continue
