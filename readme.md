@@ -11,4 +11,4 @@
 ## 💬 Select the language / Selecione o idioma
 
 [![ENGLISH](https://img.shields.io/badge/ENGLISH%20-%23323330.svg?&style=for-the-badge&logo=ENGLISH&logoColor=black&color=D14836)](https://github.com/victortp/bombcrypto-bot/blob/main/docs/en.md)
-[![PORTUGUÊS](https://img.shields.io/badge/PORTUGUÊS%20-%23323330.svg?&style=for-the-badge&logo=PORTUGUÊS&logoColor=black&color=239120)](https://github.com/victortp/bombcrypto-bot/docs/ptbr.md)
+[![PORTUGUÊS](https://img.shields.io/badge/PORTUGUÊS%20-%23323330.svg?&style=for-the-badge&logo=PORTUGUÊS&logoColor=black&color=239120)](https://github.com/victortp/bombcrypto-bot/blob/main/docs/ptbr.md)
