@@ -85,7 +85,7 @@ def main():
 
             continue
 
-        if ctx.has_elapsed('refresh', REFRESH_HEROES_POSITION * 60) and ctx.state_equals(ctx.states.SIGNING_IN):
+        if ctx.has_elapsed('refresh', REFRESH_HEROES_POSITION * 60) and ctx.state_equals(ctx.states.WORKING):
             # refresh heroes position on the map
             logger.log('Refreshing heroes position on the map', 0)
             ctx.set_state(ctx.states.REFRESHING)
