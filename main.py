@@ -81,7 +81,7 @@ def main():
             logger.log('Checking if the game is connected', 0)
             is_connected = login.is_connected()
 
-            logger.log(f'Game is{"" if is_connected else "not"} connected', 1)
+            logger.log(f'Game is{"" if is_connected else " not"} connected', 1)
             update_last_execution('is_connected')
 
             if not is_connected:
