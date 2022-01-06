@@ -74,7 +74,7 @@ class Hero:
         scroll_amount = 3
         while scroll_amount >= 0:
             green_bar = self.detection.find_on_screen(
-                self.detection.images['green-bar'], threshold=0.9)
+                self.detection.images['green-bar'], threshold=0.9, attempts=3)
 
             if len(green_bar) > 0:
                 work_btn = self.detection.find_on_screen(
