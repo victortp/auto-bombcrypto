@@ -78,8 +78,3 @@ class Detection:
         bc_value = ''.join(str(x['char']) for x in found_items)
 
         return [bc_value, cropped_img]
-
-
-if __name__ == '__main__':
-    d = Detection()
-    d.load_images('.\\images\\numbers')
