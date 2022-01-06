@@ -118,3 +118,16 @@ class Hero:
 
         # TODO check if all went fine and return
         return True
+
+    def new_map(self):
+        new_map_button = self.detection.find_on_screen(
+            self.detection.images['new-map'], attempts=2)
+
+        if len(new_map_button) == 0:
+            return False
+
+        self.controls.mouse_click(new_map_button[0])
+
+        sleep(2)
+
+        return True

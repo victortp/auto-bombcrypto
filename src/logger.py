@@ -22,13 +22,14 @@ class Logger:
 
         return date_time
 
-    def save_log(self, text, bcoin=False):
+    def save_log(self, text, bcoin=False, new_map=False):
+        prefix = 'BCOIN ' if bcoin else 'MAP ' if new_map else ''
         path_to_file = Path(
-            './log').joinpath(f'{"BCOIN " if bcoin else ""}{self.timestamp(only_date=True)}.txt')
+            './log').joinpath(f'{prefix}{self.timestamp(only_date=True)}.txt')
         file = open(str(path_to_file), 'a', encoding='utf-8')
         file.write(f'{text}\n')
 
-    def log(self, message, level=0, bcoin=False):
+    def log(self, message, level=0, bcoin=False, new_map=False):
         indent = ''
         for i in range(level):
             indent += '\t'
@@ -39,6 +40,8 @@ class Logger:
 
         if bcoin:
             self.save_log(log_message, bcoin=bcoin)
+        elif new_map:
+            self.save_log(log_message, new_map=new_map)
 
     def log_image(self, image, filename):
         cv.imwrite(

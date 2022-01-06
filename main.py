@@ -35,7 +35,8 @@ last_execution = {
     'start': 0,
     'send_to_work': 0,
     'refresh': 0,
-    'bcoin': 0
+    'bcoin': 0,
+    'new_map': 0
 }
 
 state = {
@@ -131,6 +132,14 @@ def main():
             current_state = state['WORKING']
 
             update_last_execution('bcoin', logged)
+
+        if now - last_execution['new_map'] > 5 and current_state != state['SIGNING_IN']:
+            result = hero.new_map()
+
+            if result:
+                logger.log("Map finished", new_map=True)
+
+            update_last_execution('bcoin', result)
 
         if now - last_successful_execution > 3 * 60 and last_successful_execution != 0 or now - started_at > 60 * 60:
             # try to sign in again when the last successful execution was
