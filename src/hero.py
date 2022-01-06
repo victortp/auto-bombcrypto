@@ -96,7 +96,7 @@ class Hero:
                     return False
 
                 self.controls.mouse_drag(
-                    vertical_bar[len(vertical_bar) - 1], vertical_bar[0])
+                    vertical_bar[len(vertical_bar) - 1], (vertical_bar[0][0], vertical_bar[0][1] + 50))
 
             scroll_amount -= 1
             sleep(2)
