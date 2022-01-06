@@ -22,6 +22,11 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 - You have the latest `Python` version installed ([download](https://www.python.org/downloads/))
 - You know how to use the `command prompt / terminal`
+- Install the package `scrot` if you use unix system:
+
+```
+sudo apt install scrot
+```
 
 ## 🚀 Installing Bombcrypto Bot
 
