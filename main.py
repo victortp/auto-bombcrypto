@@ -12,7 +12,7 @@ from time import time, sleep
 # ACTIONS COOLDOWN IN MINUTES
 SEND_HEROES_TO_WORK = 10
 REFRESH_HEROES_POSITION = 3
-LOG_BCOIN = 30
+LOG_BCOIN = 0.5
 CHECK_CONNECTION = 1/60
 
 # MISCELLANEOUS
@@ -90,7 +90,7 @@ def main():
 
             reset_last_execution()
 
-            if not signed_in:
+            if signed_in is False:
                 continue
 
         if current_state == state['SIGNING_IN']:
