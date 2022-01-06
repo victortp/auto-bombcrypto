@@ -21,7 +21,6 @@ class Detection:
         img = {}
 
         for file in files:
-            # print(file)
             img[file[:-4]] = cv.imread(join(dirname, file))
 
         return img
