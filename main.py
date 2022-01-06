@@ -139,6 +139,7 @@ def main():
             logged_in = login.sign_in()
 
             update_last_execution('login', logged_in)
+            started_at = time()
 
         sleep(1)
 
