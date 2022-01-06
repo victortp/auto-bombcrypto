@@ -58,8 +58,3 @@ class Context:
         now = time()
         for key, value in self.last_execution.items():
             print(f'{key}: {now - value if now - value != now else 0}s')
-
-
-if __name__ == '__main__':
-    ctx = Context()
-    print(ctx.states.SIGNING_IN)
