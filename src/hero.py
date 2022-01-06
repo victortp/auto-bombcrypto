@@ -101,7 +101,7 @@ class Hero:
 
     def refresh_heroes_position(self):
         x_button = self.detection.find_on_screen(
-            self.detection.images['x'], attempts=10)
+            self.detection.images['x'], attempts=2)
 
         if len(x_button) > 0:
             self.controls.mouse_click(x_button[0])
