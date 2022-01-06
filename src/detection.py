@@ -4,6 +4,7 @@ from os import listdir
 from os.path import isfile, join
 from pyautogui import screenshot
 from time import sleep
+from pathlib import Path
 
 
 class Detection:
@@ -12,9 +13,9 @@ class Detection:
 
     def __init__(self):
         self.images = self.load_images()
-        self.number_images = self.load_images('.\\images\\numbers')
+        self.number_images = self.load_images(Path('images/numbers/'))
 
-    def load_images(self, dirname='.\\images\\'):
+    def load_images(self, dirname=Path('images/')):
         files = [f for f in listdir(
             dirname) if isfile(join(dirname, f))]
 

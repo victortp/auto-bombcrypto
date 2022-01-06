@@ -23,8 +23,9 @@ class Logger:
         return date_time
 
     def save_log(self, text, bcoin=False):
-        path_to_file = f'.\\log\\{"BCOIN " if bcoin else ""}{self.timestamp(only_date=True)}.txt'
-        file = open(path_to_file, 'a', encoding='utf-8')
+        path_to_file = Path(
+            './log').joinpath(f'{"BCOIN " if bcoin else ""}{self.timestamp(only_date=True)}.txt')
+        file = open(str(path_to_file), 'a', encoding='utf-8')
         file.write(f'{text}\n')
 
     def log(self, message, level=0, bcoin=False):
@@ -41,4 +42,5 @@ class Logger:
 
     def log_image(self, image, filename):
         cv.imwrite(
-            f'.\\log\\images\\{self.timestamp(False)} - {filename}.jpg', image)
+            str(Path(
+                './log/images').joinpath(f'{self.timestamp(False)} - {filename}.jpg')), image)
