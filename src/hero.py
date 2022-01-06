@@ -99,7 +99,7 @@ class Hero:
             scroll_amount -= 1
             sleep(2)
 
-    def update_heroes_position(self):
+    def refresh_heroes_position(self):
         x_button = self.detection.find_on_screen(
             self.detection.images['x'], attempts=10)
 

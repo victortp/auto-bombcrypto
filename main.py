@@ -11,7 +11,7 @@ from time import time, sleep
 
 # ACTIONS COOLDOWN IN MINUTES
 SEND_HEROES_TO_WORK = 10
-UPDATE_HEROES_POSITION = 3
+REFRESH_HEROES_POSITION = 3
 LOG_BCOIN = 30
 CHECK_CONNECTION = 1
 
@@ -34,14 +34,14 @@ last_execution = {
     'login': 0,
     'start': 0,
     'send_to_work': 0,
-    'update': 0,
+    'refresh': 0,
     'bcoin': 0
 }
 
 state = {
     'SIGNING_IN': 0,
     'WORKING': 1,
-    'UPDATING': 2,
+    'REFRESHING': 2,
     'BCOIN': 3,
     'SEND_TO_WORK': 4
 }
@@ -80,7 +80,7 @@ def main():
             logger.log('Checking if the game is connected', 0)
             is_connected = login.is_connected()
 
-            logger.log(f'Game is {"" if is_connected else "not"} connected', 1)
+            logger.log(f'Game is{"" if is_connected else "not"} connected', 1)
             update_last_execution('is_connected')
 
             if not is_connected:
@@ -114,14 +114,14 @@ def main():
 
             update_last_execution('send_to_work', sent_to_work)
 
-        if now - last_execution['update'] > UPDATE_HEROES_POSITION * 60 and current_state != state['SIGNING_IN']:
-            # update heroes position on the map
-            logger.log('Updating heroes position on the map', 0)
-            current_state = state['UPDATING']
-            updated = hero.update_heroes_position()
+        if now - last_execution['refresh'] > REFRESH_HEROES_POSITION * 60 and current_state != state['SIGNING_IN']:
+            # refresh heroes position on the map
+            logger.log('Refreshing heroes position on the map', 0)
+            current_state = state['REFRESHING']
+            updated = hero.refresh_heroes_position()
             current_state = state['WORKING']
 
-            update_last_execution('update', updated)
+            update_last_execution('refresh', updated)
 
         if now - last_execution['bcoin'] > LOG_BCOIN * 60 and current_state == state['WORKING']:
             # logs current bc value
