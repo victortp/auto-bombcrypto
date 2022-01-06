@@ -39,7 +39,6 @@ def main():
     logger.log('Starting', 0)
 
     ctx.update_last_execution('started_at')
-    ctx.set_state(ctx.states.SIGNING_IN)
 
     while True:
         if DEBUG:
@@ -52,6 +51,7 @@ def main():
 
         if not is_connected:
             # sign in the game
+            ctx.set_state(ctx.states.SIGNING_IN)
             logger.log('Disconnected, signing in', 0)
             signed_in = login.sign_in()
 
@@ -123,6 +123,7 @@ def main():
             ctx.set_state(ctx.states.SIGNING_IN)
             login.sign_in()
 
+            ctx.reset_last_execution()
             ctx.update_last_execution('started_at')
 
             continue
