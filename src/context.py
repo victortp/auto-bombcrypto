@@ -14,7 +14,7 @@ class Context:
     states = None
 
     last_execution = {
-        'is_connected': 0,
+        'check_connection': 0,
         'start': 0,
         'send_to_work': 0,
         'refresh': 0,

@@ -14,7 +14,7 @@ from time import time, sleep
 SEND_HEROES_TO_WORK = 10
 REFRESH_HEROES_POSITION = 3
 LOG_BCOIN = 30
-CHECK_CONNECTION = 1/60
+CHECK_CONNECTION = 0.5
 
 # MISCELLANEOUS
 SEND_ALL_HEROES_TO_WORK = False  # True = yes | False = no
@@ -44,25 +44,26 @@ def main():
         if DEBUG:
             ctx.debug()
 
-        # check if the game is connected
-        is_connected = login.is_connected()
+        if ctx.has_elapsed('check_connection', CHECK_CONNECTION * 60):
+            # check if the game is connected
+            is_connected = login.is_connected()
 
-        ctx.update_last_execution('is_connected')
+            ctx.update_last_execution('check_connection')
 
-        if not is_connected:
-            # sign in the game
-            ctx.set_state(ctx.states.SIGNING_IN)
-            logger.log('Disconnected, signing in', 0)
-            signed_in = login.sign_in()
+            if not is_connected:
+                # sign in the game
+                ctx.set_state(ctx.states.SIGNING_IN)
+                logger.log('Disconnected, signing in', 0)
+                signed_in = login.sign_in()
 
-            logger.log(
-                f'{"Signed in" if signed_in else "Did not sign in"}', 1)
+                logger.log(
+                    f'{"Signed in" if signed_in else "Did not sign in"}', 1)
 
-            ctx.reset_last_execution()
-            ctx.update_last_execution('started_at')
+                ctx.reset_last_execution()
+                ctx.update_last_execution('started_at')
 
-            if signed_in is False:
-                continue
+                if signed_in is False:
+                    continue
 
         if ctx.state_equals(ctx.states.SIGNING_IN):
             # start adventure mode after signing in
