@@ -63,7 +63,7 @@ python main.py
 ```
 
 - Por ser uma ferramenta baseada em imagens, mantenha a janela do navegador visível em todos os momentos
-- Para finalizar, basta apertar `ctrl + c` no prompt de comando/terminal
+- Para encerrar a ferramenta, basta apertar `ctrl + c` no prompt de comando/terminal
 
 ## ⚙️ Ajustes
 
