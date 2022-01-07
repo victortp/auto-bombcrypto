@@ -22,7 +22,7 @@
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 - Você possui a versão mais recente do `Python` instalada ([download](https://www.python.org/downloads/))
-- Você sabe utilizar o `prompt de comando / terminal`
+- Você sabe utilizar o `prompt de comando/terminal`
 - Instalou o pacote `scrot` caso utilize sistema unix:
 
 ```
@@ -33,7 +33,7 @@ sudo apt install scrot
 
 Para instalar o Auto BOMBCRYPTO, siga as etapas abaixo:
 
-- Abra a pasta do projeto no prompt de comando / terminal
+- Abra a pasta do projeto no prompt de comando/terminal
 
 ```
 cd path/to/project-folder/
@@ -50,7 +50,7 @@ pip install -r requirements.txt
 Para usar o Auto BOMBCRYPTO, siga as etapas abaixo:
 
 - Abra o [site do Bombcrypto](https://app.bombcrypto.io/)
-- Abra a pasta do projeto no prompt de comando / terminal
+- Abra a pasta do projeto no prompt de comando/terminal
 
 ```
 cd caminho/para/pasta-do-projeto/
@@ -63,6 +63,7 @@ python main.py
 ```
 
 - Por ser uma ferramenta baseada em imagens, mantenha a janela do navegador visível em todos os momentos
+- Para finalizar, basta apertar `ctrl + c` no prompt de comando/terminal
 
 ## ⚙️ Ajustes
 
