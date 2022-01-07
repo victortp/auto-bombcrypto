@@ -8,6 +8,7 @@ class Controls:
 
     def __init__(self, randomize_mouse_movement=True):
         self.randomize_mouse_movement = randomize_mouse_movement
+        pyautogui.FAILSAFE = False
 
     def mouse_click(self, rectangle):
         self.mouse_move(rectangle)
