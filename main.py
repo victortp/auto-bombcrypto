@@ -5,7 +5,7 @@ from src.hero import Hero
 from src.bcoin import Bcoin
 from src.logger import Logger
 from src.context import Context
-from time import time, sleep
+from time import sleep
 
 
 #### DO NOT CHANGE ABOVE THIS LINE ####
