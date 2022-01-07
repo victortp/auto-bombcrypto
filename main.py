@@ -107,7 +107,7 @@ def main():
 
             continue
 
-        if ctx.has_elapsed('new_map', 5) and ctx.state_equals(ctx.states.SIGNING_IN):
+        if ctx.has_elapsed('new_map', 5) and not ctx.state_equals(ctx.states.SIGNING_IN):
             result = hero.new_map()
 
             if result:
