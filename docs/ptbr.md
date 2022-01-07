@@ -29,7 +29,7 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 sudo apt install scrot
 ```
 
-## 🚀 Instalando Auto BOMBCRYPTO
+## 🚀 Instalando o Auto BOMBCRYPTO
 
 Para instalar o Auto BOMBCRYPTO, siga as etapas abaixo:
 
@@ -45,7 +45,7 @@ cd path/to/project-folder/
 pip install -r requirements.txt
 ```
 
-## ☕ Usando Auto BOMBCRYPTO
+## ☕ Usando o Auto BOMBCRYPTO
 
 Para usar o Auto BOMBCRYPTO, siga as etapas abaixo:
 
