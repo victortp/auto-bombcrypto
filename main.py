@@ -66,8 +66,8 @@ def main():
                     continue
 
         if ctx.state_equals(ctx.states.SIGNING_IN):
-            # start adventure mode after signing in
-            logger.log('Starting adventure mode', 0)
+            # start treasure hunt after signing in
+            logger.log('Starting treasure hunt', 0)
             started = hero.start()
 
             ctx.set_state(ctx.states.WORKING)
