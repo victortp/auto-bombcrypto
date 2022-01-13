@@ -22,7 +22,9 @@ class Hero:
 
         self.controls.mouse_click(treasure_hunt[0])
 
-        return True
+        result = self.is_working()
+
+        return result
 
     def send_to_work(self):
         up_arrow = self.detection.find_on_screen(
@@ -60,8 +62,9 @@ class Hero:
         if len(down_arrow) > 0:
             self.controls.mouse_click(down_arrow[0])
 
-        # TODO check if all went fine and return
-        return True
+        result = self.is_working()
+
+        return result
 
     def send_all_heroes(self):
         all_button = self.detection.find_on_screen(
@@ -116,8 +119,9 @@ class Hero:
 
         self.start()
 
-        # TODO check if all went fine and return
-        return True
+        result = self.is_working()
+
+        return result
 
     def new_map(self):
         new_map_button = self.detection.find_on_screen(
@@ -129,5 +133,22 @@ class Hero:
         self.controls.mouse_click(new_map_button[0])
 
         sleep(2)
+
+        return True
+
+    def is_working(self):
+        sleep(2)
+
+        gear = self.detection.find_on_screen(
+            self.detection.images['gear'], attempts=1)
+
+        if len(gear) == 0:
+            return False
+
+        hero = self.detection.find_on_screen(
+            self.detection.images['hero-icon'], attempts=1)
+
+        if len(hero) != 0:
+            return False
 
         return True

@@ -38,11 +38,25 @@ def main():
 
     logger.log('Starting', 0)
 
+    failed_attempts = 0
+
     ctx.update_last_execution('started_at')
 
     while True:
         if DEBUG:
             ctx.debug()
+
+        if ctx.has_elapsed('last_successful_execution', 3 * 60) or ctx.has_elapsed('started_at', 60 * 60) or failed_attempts > 5:
+            # try to sign in again when the last successful execution was
+            # performed over 3 minutes or 60 minutes has passed since login
+            logger.log('Reloading the game', 0)
+            ctx.set_state(ctx.states.SIGNING_IN)
+            login.sign_in()
+
+            ctx.reset_last_execution()
+            ctx.update_last_execution('started_at')
+
+            continue
 
         if ctx.has_elapsed('check_connection', CHECK_CONNECTION * 60):
             # check if the game is connected
@@ -70,8 +84,14 @@ def main():
             logger.log('Starting treasure hunt', 0)
             started = hero.start()
 
-            ctx.set_state(ctx.states.WORKING)
-            ctx.update_last_execution('start', started)
+            if started:
+                failed_attempts = 0
+                logger.log('Started treasure hunt', 1)
+                ctx.set_state(ctx.states.WORKING)
+                ctx.update_last_execution('start', started)
+            else:
+                failed_attempts += 1
+                logger.log('Could not start treasure hunt', 1)
 
             continue
 
@@ -80,9 +100,15 @@ def main():
             logger.log('Looking for heroes available to work', 0)
             ctx.set_state(ctx.states.SEND_TO_WORK)
             sent_to_work = hero.send_to_work()
-            ctx.set_state(ctx.states.WORKING)
 
-            ctx.update_last_execution('send_to_work', sent_to_work)
+            if sent_to_work:
+                failed_attempts = 0
+                logger.log('All available heroes sent to work', 1)
+                ctx.set_state(ctx.states.WORKING)
+                ctx.update_last_execution('send_to_work', sent_to_work)
+            else:
+                failed_attempts += 1
+                logger.log('Could not send heroes to work', 1)
 
             continue
 
@@ -90,10 +116,16 @@ def main():
             # refresh heroes position on the map
             logger.log('Refreshing heroes position on the map', 0)
             ctx.set_state(ctx.states.REFRESHING)
-            updated = hero.refresh_heroes_position()
-            ctx.set_state(ctx.states.WORKING)
+            refreshed = hero.refresh_heroes_position()
 
-            ctx.update_last_execution('refresh', updated)
+            if refreshed:
+                failed_attempts = 0
+                logger.log('Refreshed heroes position', 1)
+                ctx.set_state(ctx.states.WORKING)
+                ctx.update_last_execution('refresh', refreshed)
+            else:
+                failed_attempts += 1
+                logger.log('Could not refresh heroes position', 1)
 
             continue
 
@@ -102,9 +134,15 @@ def main():
             logger.log('Saving current Bcoin amount in the chest', 0)
             ctx.set_state(ctx.states.BCOIN)
             logged = bcoin.log_current_bc()
-            ctx.set_state(ctx.states.WORKING)
 
-            ctx.update_last_execution('bcoin', logged)
+            if logged:
+                failed_attempts = 0
+                logger.log('Saved Bcoin amount', 1)
+                ctx.set_state(ctx.states.WORKING)
+                ctx.update_last_execution('bcoin', logged)
+            else:
+                failed_attempts += 1
+                logger.log('Could not save Bcoin amount', 1)
 
             continue
 
@@ -115,18 +153,6 @@ def main():
                 logger.log("Map finished", new_map=True)
 
             ctx.update_last_execution('new_map', result)
-
-            continue
-
-        if ctx.has_elapsed('last_successful_execution', 3 * 60) or ctx.has_elapsed('started_at', 60 * 60):
-            # try to sign in again when the last successful execution was
-            # performed over 3 minutes or 60 minutes has passed since login
-            logger.log('Reloading the game', 0)
-            ctx.set_state(ctx.states.SIGNING_IN)
-            login.sign_in()
-
-            ctx.reset_last_execution()
-            ctx.update_last_execution('started_at')
 
             continue
 
