@@ -15,7 +15,7 @@ import sys
 SEND_HEROES_TO_WORK = 10
 REFRESH_HEROES_POSITION = 3
 LOG_BCOIN = 30
-CHECK_CONNECTION = 1/60
+CHECK_CONNECTION = 1 / 60
 
 # MISCELLANEOUS
 # True = yes | False = no
@@ -66,7 +66,6 @@ def main():
     while True:
         for index, c in enumerate(ctx):
             if DEBUG:
-                print(c)
                 c.debug()
 
             if c.has_elapsed('last_successful_execution', 3 * 60) or c.has_elapsed('started_at', 60 * 60) or c.failed_attempts > 5:
@@ -76,13 +75,21 @@ def main():
                 win.activate_window(windows[index])
 
                 logger.log(f'-=[{index + 1}]=- Reloading the game', 0)
-                c.set_state(c.states.SIGNING_IN)
-                login.sign_in()
 
                 c.reset_last_execution()
-                c.update_last_execution('started_at')
+                c.set_state(c.states.SIGNING_IN)
 
-                continue
+                logger.log(
+                    f'-=[{index + 1}]=- Disconnected, signing in', 0)
+                signed_in = login.sign_in()
+
+                logger.log(
+                    f'{"Signed in" if signed_in else "Did not sign in"}', 1)
+
+                if signed_in is False:
+                    continue
+
+                c.update_last_execution('started_at')
 
             if c.has_elapsed('check_connection', CHECK_CONNECTION * 60):
                 # check if the game is connected
@@ -119,13 +126,13 @@ def main():
 
                 if started:
                     c.failed_attempts = 0
-                    logger.log(f'-=[{index + 1}]=- Started treasure hunt', 1)
+                    logger.log(f'Started treasure hunt', 1)
                     c.set_state(c.states.WORKING)
                     c.update_last_execution('start', started)
                 else:
                     c.failed_attempts += 1
                     logger.log(
-                        f'-=[{index + 1}]=- Could not start treasure hunt', 1)
+                        f'Could not start treasure hunt', 1)
 
                 continue
 
@@ -142,13 +149,13 @@ def main():
                 if sent_to_work:
                     c.failed_attempts = 0
                     logger.log(
-                        f'-=[{index + 1}]=- All available heroes sent to work', 1)
+                        f'All available heroes sent to work', 1)
                     c.set_state(c.states.WORKING)
                     c.update_last_execution('send_to_work', sent_to_work)
                 else:
                     c.failed_attempts += 1
                     logger.log(
-                        f'-=[{index + 1}]=- Could not send heroes to work', 1)
+                        f'Could not send heroes to work', 1)
 
                 continue
 
@@ -165,13 +172,13 @@ def main():
                 if refreshed:
                     c.failed_attempts = 0
                     logger.log(
-                        f'-=[{index + 1}]=- Refreshed heroes position', 1)
+                        f'Refreshed heroes position', 1)
                     c.set_state(c.states.WORKING)
                     c.update_last_execution('refresh', refreshed)
                 else:
                     c.failed_attempts += 1
                     logger.log(
-                        f'-=[{index + 1}]=- Could not refresh heroes position', 1)
+                        f'Could not refresh heroes position', 1)
 
                 continue
 
@@ -187,13 +194,13 @@ def main():
 
                 if logged:
                     c.failed_attempts = 0
-                    logger.log(f'-=[{index + 1}]=- Saved Bcoin amount', 1)
+                    logger.log(f'Saved Bcoin amount', 1)
                     c.set_state(c.states.WORKING)
                     c.update_last_execution('bcoin', logged)
                 else:
                     c.failed_attempts += 1
                     logger.log(
-                        f'-=[{index + 1}]=- Could not save Bcoin amount', 1)
+                        f'Could not save Bcoin amount', 1)
 
                 continue
 
@@ -203,7 +210,7 @@ def main():
                 result = hero.new_map()
 
                 if result:
-                    logger.log("Map finished", new_map=True)
+                    logger.log(f"-=[{index + 1}]=- Map finished", new_map=True)
 
                 c.update_last_execution('new_map', result)
 
@@ -238,7 +245,13 @@ def welcome_message():
         |                                                  |
         |                     PAYPAL                       |
         |           https://bityli.com/8BIzysR             |
-        |__________________________________________________|'''
+        |__________________________________________________|
+
+        ⚠️  If you just updated this tool, make sure to 
+           install the requirements and read the docs!
+
+        ► To stop this tool press CTRL+C
+        '''
 
     print(message)
     sleep(3)

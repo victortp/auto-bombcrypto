@@ -12,7 +12,7 @@ class State:
 class Context:
     state = None
     states = None
-    failed_attempts = 0
+    failed_attempts = None
 
     last_execution = None
 
@@ -29,6 +29,7 @@ class Context:
             'started_at': 0,
             'last_successful_execution': 0
         }
+        self.failed_attempts = 0
 
     def update_last_execution(self, feature, success=True):
         now = time()

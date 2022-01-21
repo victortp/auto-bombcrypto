@@ -17,10 +17,8 @@ class Hero:
         treasure_hunt = self.detection.find_on_screen(
             self.detection.images['treasure-hunt-icon'], attempts=10)
 
-        if len(treasure_hunt) == 0:
-            return False
-
-        self.controls.mouse_click(treasure_hunt[0])
+        if len(treasure_hunt) > 0:
+            self.controls.mouse_click(treasure_hunt[0])
 
         result = self.is_working()
 
@@ -87,7 +85,7 @@ class Hero:
                     for gb in green_bar:
                         for wb in work_btn:
                             distance = abs(
-                                (gb[1] + gb[3]/2) - (wb[1] + wb[3]/2))
+                                (gb[1] + gb[3] / 2) - (wb[1] + wb[3] / 2))
                             if distance <= 10:
                                 self.controls.mouse_click(wb)
 
