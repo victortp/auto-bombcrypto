@@ -16,6 +16,7 @@
 - Select the heroes to work (all at at once/all that have green energy bar)
 - Refresh heroes position in the map
 - Log chest's Bcoin amount
+- Support multiple accounts
 
 ## 💻 Prerequisites
 
@@ -23,10 +24,10 @@ Before beginning, make sure that you have met the following requirements:
 
 - You have the latest `Python` version installed ([download](https://www.python.org/downloads/))
 - You know how to use the `command prompt/terminal`
-- Installed the package `scrot` if you use unix system:
+- Installed the following packages if you use unix system:
 
 ```
-sudo apt install scrot
+sudo apt install scrot python-wnck python3-gi python3-gi gir1.2-wnck-3.0 -y
 ```
 
 ## 🚀 Installing Auto BOMBCRYPTO
@@ -65,6 +66,11 @@ python main.py
 - As it is an image based tool, keep the browser window visible at all times
 - To stop it, just press `ctrl + c` in the command prompt/terminal
 
+## 🤖 Multiple accounts
+
+To use multiple accounts, open the browsers, go to the bombcrypto page and leave the metamask authenticated.
+The tool will identify the presence of multiple accounts.
+
 ## ⚙️ Tweaks
 
 You can change the tool's behavior by changing the following variables in the `main.py` file:
@@ -82,4 +88,5 @@ CHECK_CONNECTION = 1/60
 SEND_ALL_HEROES_TO_WORK = False  # True = yes | False = no
 SAVE_LOG_TO_FILE = True  # True = yes | False = no
 RANDOMIZE_MOUSE_MOVEMENT = True  # True = yes | False = no
+LOGIN_STEP_ATTEMPTS = 20 # Number of attempts to complete each step of the login proccess
 ```
