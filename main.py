@@ -6,6 +6,7 @@ from src.bcoin import Bcoin
 from src.logger import Logger
 from src.context import Context
 from time import sleep
+import sys
 
 
 #### DO NOT CHANGE ABOVE THIS LINE ####
@@ -30,131 +31,178 @@ controls = Controls(RANDOMIZE_MOUSE_MOVEMENT)
 login = Login(detection, controls, logger)
 hero = Hero(detection, controls, logger, SEND_ALL_HEROES_TO_WORK)
 bcoin = Bcoin(detection, controls, logger)
-ctx = Context()
+win = None
+ctx = []
+
+
+if sys.platform in ['linux', 'linux2']:
+    from src.window_linux import WindowLinux
+    win = WindowLinux()
+elif sys.platform in ['Windows', 'win32', 'cygwin']:
+    from src.window import Window
+    win = Window()
 
 
 def main():
     welcome_message()
 
-    logger.log('Starting', 0)
+    windows = win.get_windows('Bombcrypto')
 
-    failed_attempts = 0
+    for w in windows:
+        c = Context()
+        ctx.append(c)
 
-    ctx.update_last_execution('started_at')
+    logger.log(f' Starting', 0)
+
+    for c in ctx:
+        c.failed_attempts = 0
+        c.update_last_execution('started_at')
 
     while True:
-        if DEBUG:
-            ctx.debug()
+        for index, c in enumerate(ctx):
+            if DEBUG:
+                print(c)
+                c.debug()
 
-        if ctx.has_elapsed('last_successful_execution', 3 * 60) or ctx.has_elapsed('started_at', 60 * 60) or failed_attempts > 5:
-            # try to sign in again when the last successful execution was
-            # performed over 3 minutes or 60 minutes has passed since login
-            logger.log('Reloading the game', 0)
-            ctx.set_state(ctx.states.SIGNING_IN)
-            login.sign_in()
+            if c.has_elapsed('last_successful_execution', 3 * 60) or c.has_elapsed('started_at', 60 * 60) or c.failed_attempts > 5:
+                # try to sign in again when the last successful execution was
+                # performed over 3 minutes or 60 minutes has passed since login
 
-            ctx.reset_last_execution()
-            ctx.update_last_execution('started_at')
+                win.activate_window(windows[index])
 
-            continue
+                logger.log(f'-=[{index + 1}]=- Reloading the game', 0)
+                c.set_state(c.states.SIGNING_IN)
+                login.sign_in()
 
-        if ctx.has_elapsed('check_connection', CHECK_CONNECTION * 60):
-            # check if the game is connected
-            is_connected = login.is_connected()
+                c.reset_last_execution()
+                c.update_last_execution('started_at')
 
-            ctx.update_last_execution('check_connection')
+                continue
 
-            if not is_connected:
-                # sign in the game
-                ctx.set_state(ctx.states.SIGNING_IN)
-                logger.log('Disconnected, signing in', 0)
-                signed_in = login.sign_in()
+            if c.has_elapsed('check_connection', CHECK_CONNECTION * 60):
+                # check if the game is connected
+
+                win.activate_window(windows[index])
+
+                is_connected = login.is_connected()
+
+                c.update_last_execution('check_connection')
+
+                if not is_connected:
+                    # sign in the game
+                    c.set_state(c.states.SIGNING_IN)
+                    logger.log(
+                        f'-=[{index + 1}]=- Disconnected, signing in', 0)
+                    signed_in = login.sign_in()
+
+                    logger.log(
+                        f'{"Signed in" if signed_in else "Did not sign in"}', 1)
+
+                    c.reset_last_execution()
+                    c.update_last_execution('started_at')
+
+                    if signed_in is False:
+                        continue
+
+            if c.state_equals(c.states.SIGNING_IN):
+                # start treasure hunt after signing in
+
+                win.activate_window(windows[index])
+
+                logger.log(f'-=[{index + 1}]=- Starting treasure hunt', 0)
+                started = hero.start()
+
+                if started:
+                    c.failed_attempts = 0
+                    logger.log(f'-=[{index + 1}]=- Started treasure hunt', 1)
+                    c.set_state(c.states.WORKING)
+                    c.update_last_execution('start', started)
+                else:
+                    c.failed_attempts += 1
+                    logger.log(
+                        f'-=[{index + 1}]=- Could not start treasure hunt', 1)
+
+                continue
+
+            if c.has_elapsed('send_to_work', SEND_HEROES_TO_WORK * 60) and not c.state_equals(c.states.SIGNING_IN):
+                # look for heroes available to work
+
+                win.activate_window(windows[index])
 
                 logger.log(
-                    f'{"Signed in" if signed_in else "Did not sign in"}', 1)
+                    f'-=[{index + 1}]=- Looking for heroes available to work', 0)
+                c.set_state(c.states.SEND_TO_WORK)
+                sent_to_work = hero.send_to_work()
 
-                ctx.reset_last_execution()
-                ctx.update_last_execution('started_at')
+                if sent_to_work:
+                    c.failed_attempts = 0
+                    logger.log(
+                        f'-=[{index + 1}]=- All available heroes sent to work', 1)
+                    c.set_state(c.states.WORKING)
+                    c.update_last_execution('send_to_work', sent_to_work)
+                else:
+                    c.failed_attempts += 1
+                    logger.log(
+                        f'-=[{index + 1}]=- Could not send heroes to work', 1)
 
-                if signed_in is False:
-                    continue
+                continue
 
-        if ctx.state_equals(ctx.states.SIGNING_IN):
-            # start treasure hunt after signing in
-            logger.log('Starting treasure hunt', 0)
-            started = hero.start()
+            if c.has_elapsed('refresh', REFRESH_HEROES_POSITION * 60) and c.state_equals(c.states.WORKING):
+                # refresh heroes position on the map
 
-            if started:
-                failed_attempts = 0
-                logger.log('Started treasure hunt', 1)
-                ctx.set_state(ctx.states.WORKING)
-                ctx.update_last_execution('start', started)
-            else:
-                failed_attempts += 1
-                logger.log('Could not start treasure hunt', 1)
+                win.activate_window(windows[index])
 
-            continue
+                logger.log(
+                    f'-=[{index + 1}]=- Refreshing heroes position on the map', 0)
+                c.set_state(c.states.REFRESHING)
+                refreshed = hero.refresh_heroes_position()
 
-        if ctx.has_elapsed('send_to_work', SEND_HEROES_TO_WORK * 60) and not ctx.state_equals(ctx.states.SIGNING_IN):
-            # look for heroes available to work
-            logger.log('Looking for heroes available to work', 0)
-            ctx.set_state(ctx.states.SEND_TO_WORK)
-            sent_to_work = hero.send_to_work()
+                if refreshed:
+                    c.failed_attempts = 0
+                    logger.log(
+                        f'-=[{index + 1}]=- Refreshed heroes position', 1)
+                    c.set_state(c.states.WORKING)
+                    c.update_last_execution('refresh', refreshed)
+                else:
+                    c.failed_attempts += 1
+                    logger.log(
+                        f'-=[{index + 1}]=- Could not refresh heroes position', 1)
 
-            if sent_to_work:
-                failed_attempts = 0
-                logger.log('All available heroes sent to work', 1)
-                ctx.set_state(ctx.states.WORKING)
-                ctx.update_last_execution('send_to_work', sent_to_work)
-            else:
-                failed_attempts += 1
-                logger.log('Could not send heroes to work', 1)
+                continue
 
-            continue
+            if c.has_elapsed('bcoin', LOG_BCOIN * 60) and c.state_equals(c.states.WORKING):
+                # logs current bc value
 
-        if ctx.has_elapsed('refresh', REFRESH_HEROES_POSITION * 60) and ctx.state_equals(ctx.states.WORKING):
-            # refresh heroes position on the map
-            logger.log('Refreshing heroes position on the map', 0)
-            ctx.set_state(ctx.states.REFRESHING)
-            refreshed = hero.refresh_heroes_position()
+                win.activate_window(windows[index])
 
-            if refreshed:
-                failed_attempts = 0
-                logger.log('Refreshed heroes position', 1)
-                ctx.set_state(ctx.states.WORKING)
-                ctx.update_last_execution('refresh', refreshed)
-            else:
-                failed_attempts += 1
-                logger.log('Could not refresh heroes position', 1)
+                logger.log(
+                    f'-=[{index + 1}]=- Saving current Bcoin amount in the chest', 0)
+                c.set_state(c.states.BCOIN)
+                logged = bcoin.log_current_bc()
 
-            continue
+                if logged:
+                    c.failed_attempts = 0
+                    logger.log(f'-=[{index + 1}]=- Saved Bcoin amount', 1)
+                    c.set_state(c.states.WORKING)
+                    c.update_last_execution('bcoin', logged)
+                else:
+                    c.failed_attempts += 1
+                    logger.log(
+                        f'-=[{index + 1}]=- Could not save Bcoin amount', 1)
 
-        if ctx.has_elapsed('bcoin', LOG_BCOIN * 60) and ctx.state_equals(ctx.states.WORKING):
-            # logs current bc value
-            logger.log('Saving current Bcoin amount in the chest', 0)
-            ctx.set_state(ctx.states.BCOIN)
-            logged = bcoin.log_current_bc()
+                continue
 
-            if logged:
-                failed_attempts = 0
-                logger.log('Saved Bcoin amount', 1)
-                ctx.set_state(ctx.states.WORKING)
-                ctx.update_last_execution('bcoin', logged)
-            else:
-                failed_attempts += 1
-                logger.log('Could not save Bcoin amount', 1)
+            if c.has_elapsed('new_map', 5) and not c.state_equals(c.states.SIGNING_IN):
+                win.activate_window(windows[index])
 
-            continue
+                result = hero.new_map()
 
-        if ctx.has_elapsed('new_map', 5) and not ctx.state_equals(ctx.states.SIGNING_IN):
-            result = hero.new_map()
+                if result:
+                    logger.log("Map finished", new_map=True)
 
-            if result:
-                logger.log("Map finished", new_map=True)
+                c.update_last_execution('new_map', result)
 
-            ctx.update_last_execution('new_map', result)
-
-            continue
+                continue
 
         sleep(1)
 

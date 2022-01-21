@@ -12,6 +12,9 @@ class Bcoin:
         self.logger = logger
 
     def log_current_bc(self):
+        # TODO: adjust to be able to log for multiple accounts
+        return True
+
         sleep(1)
         chest = self.detection.find_on_screen(
             self.detection.images['chest'], attempts=10)
