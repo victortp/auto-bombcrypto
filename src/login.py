@@ -5,11 +5,13 @@ class Login:
     detection = None
     controls = None
     logger = None
+    attempts = None
 
-    def __init__(self, detection, controls, logger):
+    def __init__(self, detection, controls, logger, attempts=10):
         self.detection = detection
         self.controls = controls
         self.logger = logger
+        self.attempts = attempts
 
     def is_connected(self):
         screenshot = self.detection.get_screenshot()
@@ -52,19 +54,19 @@ class Login:
         sleep(2)
 
         connect_button = self.detection.find_on_screen(
-            self.detection.images['connect-wallet'], attempts=10)
+            self.detection.images['connect-wallet'], attempts=self.attempts)
 
         if len(connect_button) > 0:
             self.controls.mouse_click(connect_button[0])
 
         sign_button = self.detection.find_on_screen(
-            self.detection.images['sign'], attempts=10)
+            self.detection.images['sign'], attempts=self.attempts)
 
         if len(sign_button) > 0:
             self.controls.mouse_click(sign_button[0])
 
         treasure_hunt = self.detection.find_on_screen(
-            self.detection.images['treasure-hunt-icon'], attempts=10)
+            self.detection.images['treasure-hunt-icon'], attempts=self.attempts)
 
         if len(treasure_hunt) == 0:
             return False

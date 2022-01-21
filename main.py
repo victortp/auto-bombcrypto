@@ -18,9 +18,14 @@ LOG_BCOIN = 30
 CHECK_CONNECTION = 1/60
 
 # MISCELLANEOUS
-SEND_ALL_HEROES_TO_WORK = False  # True = yes | False = no
-SAVE_LOG_TO_FILE = True  # True = yes | False = no
-RANDOMIZE_MOUSE_MOVEMENT = True  # True = yes | False = no
+# True = yes | False = no
+SEND_ALL_HEROES_TO_WORK = False
+# True = yes | False = no
+SAVE_LOG_TO_FILE = True
+# True = yes | False = no
+RANDOMIZE_MOUSE_MOVEMENT = True
+# Number of attempts to complete each step of the login proccess
+LOGIN_STEP_ATTEMPTS = 20
 
 #### DO NOT CHANGE BELOW THIS LINE ####
 DEBUG = False
@@ -28,7 +33,7 @@ DEBUG = False
 logger = Logger(SAVE_LOG_TO_FILE)
 detection = Detection()
 controls = Controls(RANDOMIZE_MOUSE_MOVEMENT)
-login = Login(detection, controls, logger)
+login = Login(detection, controls, logger, LOGIN_STEP_ATTEMPTS)
 hero = Hero(detection, controls, logger, SEND_ALL_HEROES_TO_WORK)
 bcoin = Bcoin(detection, controls, logger)
 win = None
