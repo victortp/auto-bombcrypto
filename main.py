@@ -78,6 +78,7 @@ def main():
                 logger.log(f'-=[{index + 1}]=- Reloading the game', 0)
 
                 c.reset_last_execution()
+                c.set_state(c.states.SIGNING_IN)
 
                 logger.log(
                     f'-=[{index + 1}]=- Disconnected, signing in', 0)
