@@ -15,7 +15,7 @@ import sys
 SEND_HEROES_TO_WORK = 10
 REFRESH_HEROES_POSITION = 3
 LOG_BCOIN = 30
-CHECK_CONNECTION = 1/60
+CHECK_CONNECTION = 1 / 60
 
 # MISCELLANEOUS
 # True = yes | False = no
@@ -76,13 +76,20 @@ def main():
                 win.activate_window(windows[index])
 
                 logger.log(f'-=[{index + 1}]=- Reloading the game', 0)
-                c.set_state(c.states.SIGNING_IN)
-                login.sign_in()
 
                 c.reset_last_execution()
-                c.update_last_execution('started_at')
 
-                continue
+                logger.log(
+                    f'-=[{index + 1}]=- Disconnected, signing in', 0)
+                signed_in = login.sign_in()
+
+                logger.log(
+                    f'{"Signed in" if signed_in else "Did not sign in"}', 1)
+
+                if signed_in is False:
+                    continue
+
+                c.update_last_execution('started_at')
 
             if c.has_elapsed('check_connection', CHECK_CONNECTION * 60):
                 # check if the game is connected
