@@ -2,3 +2,4 @@ PyAutoGUI==0.9.53
 numpy==1.21.4
 opencv-python==4.5.4.60
 Pillow==9.0.0
+PyGetWindow==0.0.9

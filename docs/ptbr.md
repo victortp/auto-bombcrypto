@@ -16,6 +16,7 @@
 - Seleciona os heróis para trabalhar (todos de uma vez/todos que estejam com a barra de energia verde)
 - Atualiza a posição dos heróis no mapa
 - Registra a quantidade de Bcoins do baú
+- Suporta múltiplas contas
 
 ## 💻 Pré-requisitos
 
@@ -23,10 +24,10 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 - Você possui a versão mais recente do `Python` instalada ([download](https://www.python.org/downloads/))
 - Você sabe utilizar o `prompt de comando/terminal`
-- Instalou o pacote `scrot` caso utilize sistema unix:
+- Instalou os pacotes abaixo caso utilize sistema unix:
 
 ```
-sudo apt install scrot
+sudo apt install scrot python-wnck python3-gi python3-gi gir1.2-wnck-3.0 -y
 ```
 
 ## 🚀 Instalando o Auto BOMBCRYPTO
@@ -45,9 +46,9 @@ cd path/to/project-folder/
 pip install -r requirements.txt
 ```
 
-## ☕ Usando o Auto BOMBCRYPTO
+## ☕ Utilizando o Auto BOMBCRYPTO
 
-Para usar o Auto BOMBCRYPTO, siga as etapas abaixo:
+Para utilizar o Auto BOMBCRYPTO, siga as etapas abaixo:
 
 - Abra o [site do Bombcrypto](https://app.bombcrypto.io/)
 - Abra a pasta do projeto no prompt de comando/terminal
@@ -64,6 +65,11 @@ python main.py
 
 - Por ser uma ferramenta baseada em imagens, mantenha a janela do navegador visível em todos os momentos
 - Para encerrar a ferramenta, basta apertar `ctrl + c` no prompt de comando/terminal
+
+## 🤖 Múltiplas contas
+
+Para utilizar múltiplas contas, basta abrir os navegadores, acessar a página do Bombcrypto e deixar a metamask autenticada.
+Feito isso, a ferramenta irá identificar automaticamente a presença de múltiplas contas.
 
 ## ⚙️ Ajustes
 
@@ -82,4 +88,5 @@ CHECK_CONNECTION = 1/60 # Verificar a conexão
 SEND_ALL_HEROES_TO_WORK = False  # Enviar todos os heróis para o trabalho: True = sim | False = não
 SAVE_LOG_TO_FILE = True  # Gravar o registro em arquivo: True = sim | False = não
 RANDOMIZE_MOUSE_MOVEMENT = True  # Movimento do mouse aleatório: True = sim | False = não
+LOGIN_STEP_ATTEMPTS = 20 # Quantidade de tentativas para completar as etapas do processo de login
 ```

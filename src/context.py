@@ -12,21 +12,23 @@ class State:
 class Context:
     state = None
     states = None
+    failed_attempts = 0
 
-    last_execution = {
-        'check_connection': 0,
-        'start': 0,
-        'send_to_work': 0,
-        'refresh': 0,
-        'bcoin': 0,
-        'new_map': 0,
-        'started_at': 0,
-        'last_successful_execution': 0
-    }
+    last_execution = None
 
     def __init__(self):
         self.states = State()
         self.state = self.states.SIGNING_IN
+        self.last_execution = {
+            'check_connection': 0,
+            'start': 0,
+            'send_to_work': 0,
+            'refresh': 0,
+            'bcoin': 0,
+            'new_map': 0,
+            'started_at': 0,
+            'last_successful_execution': 0
+        }
 
     def update_last_execution(self, feature, success=True):
         now = time()
