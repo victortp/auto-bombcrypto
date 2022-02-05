@@ -8,7 +8,7 @@
 
 <img src="https://github.com/victortp/auto-bombcrypto/blob/main/docs/logo.png" alt="Auto BOMBCRYPTO">
 
-## 💬 Select the language / Selecione o idioma
+## 💬 Choose the language / Escolha o idioma
 
 [![ENGLISH](https://img.shields.io/badge/ENGLISH%20-%23323330.svg?&style=for-the-badge&logo=ENGLISH&logoColor=black&color=D14836)](https://github.com/victortp/auto-bombcrypto/blob/main/docs/en.md)
 [![PORTUGUÊS](https://img.shields.io/badge/PORTUGUÊS%20-%23323330.svg?&style=for-the-badge&logo=PORTUGUÊS&logoColor=black&color=239120)](https://github.com/victortp/auto-bombcrypto/blob/main/docs/ptbr.md)
