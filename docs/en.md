@@ -27,7 +27,7 @@ Before beginning, make sure that you have met the following requirements:
 - Installed the following packages if you use unix system:
 
 ```
-sudo apt install scrot python-wnck python3-gi python3-gi gir1.2-wnck-3.0 -y
+sudo apt install scrot python3-gi python3-gi gir1.2-wnck-3.0 python3-tk python3-dev -y
 ```
 
 ## 🚀 Installing Auto BOMBCRYPTO
