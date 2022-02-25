@@ -59,6 +59,12 @@ class Login:
         if len(connect_button) > 0:
             self.controls.mouse_click(connect_button[0])
 
+        connect_button_2 = self.detection.find_on_screen(
+            self.detection.images['connect'], attempts=self.attempts)
+
+        if len(connect_button_2) > 0:
+            self.controls.mouse_click(connect_button_2[0])
+
         sign_button = self.detection.find_on_screen(
             self.detection.images['sign'], attempts=self.attempts)
 
